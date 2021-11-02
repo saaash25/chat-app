@@ -25,7 +25,13 @@
                     <div class="form-group m-3">
                         <div class="row">
                             <label for="room" class="form-control-label">Room</label>
-                            <input type="text" class="form-control" name="room" placeholder="room" required />
+                            <select class="form-select" name="room" required>
+                                <option value="">Select One Chatroom</option>
+                                <option value="Political">Political</option>
+                                <option value="Cricket">Cricket</option>
+                                <option value="Football">Football</option>
+
+                            </select>
                         </div>
                     </div>
                     <div class="form-group m-3">
@@ -48,7 +54,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
         integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"
+    {{!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"
         integrity="sha512-aTKlYRb1QfU1jlF3k+aS4AqTpnTXci4R79mkdie/bp6Xm51O5O3ESAYhvg6zoicj/PD6VYY0XrYwsWLcvGiKZQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/js/chat.js"></script> --}}
