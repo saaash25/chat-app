@@ -83,7 +83,9 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         const {error,user}=removeUser(socket.id);
         if(user){
+            const usersList=findUsersInRoom(user.room);
             io.to(user.room).emit('disconnectMessage',getMessageObject(`${user.username} has left!`,'Admin'))
+            io.to(user.room).emit('roomData',{usersList})
         }
     });
 });
