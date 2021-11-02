@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/bootstrap/bootstrap.min.css">
+    <title>Chat App</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            {{!-- <div>
+                <h2>
+                    Counter app
+                </h2>
+
+                <!-- <div > -->
+                <button id="decrement">-1</button>
+                <p id="count" style="display: inline-block;">0</p>
+                <button id="increment" style="display: inline-block;">+1</button>
+                <!-- </div> -->
+            </div> --}}
+            <div>
+                <h4>Chat App</h4>
+                <div class="col">
+                    <div class="row">
+                        <div class="col-md-2 bg-info text-light">
+                            <h6>Users In Chat Room</h6>
+                            <div id="usersList" style="height:500px;scroll:auto">
+                                <ul class="list-group list-group-flush">
+                                    
+                                </ul>
+                            </div>
+                            <div class="text-center">
+                                <a href="/" class="btn btn-secondary btn-sm">Leave Room</a>
+                            </div>
+                        </div>
+                        <div class="col-md-10 border p-3 pt-1">
+                            <div class="row">
+                                <div class="chatbox-head col p-2" id="chatboxHead"
+                                    style="background-color: #fff;height:auto">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="chatMessageDiv" class="rounded col p-3 shadow-sm"
+                                    style="height:450px;overflow:auto;background-color: #d5cbcb38">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <form autocomplete="off">
+                                        <div class="form-group mt-3">
+                                            <div class="row">
+                                                <input type="text" name="message" id="message" class="col form-control"
+                                                    placeholder="your message">
+                                                <button type="button" class="col-1 btn btn-sm btn-success"
+                                                    id="sendMessage">send</button>
+                                                <button type="button" id="sendLocation"
+                                                    class="col-1 btn btn-sm btn-info m-1">location</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script id="message-template" type="text/x-handlebars-template">
+        <p  id="messageElement" class="bg-success p-1 rounded text-right text-white border message-template-paragraph" style="background-color:#8ccda9 !important;text-align:right">{{message}}</p>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"
+        integrity="sha512-aTKlYRb1QfU1jlF3k+aS4AqTpnTXci4R79mkdie/bp6Xm51O5O3ESAYhvg6zoicj/PD6VYY0XrYwsWLcvGiKZQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/chat.js"></script>
+</body>
+
+</html>

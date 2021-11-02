@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/bootstrap/bootstrap.min.css">
+    <title>Chat App</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="content" style="margin: auto;margin-top:10%">
+            <div class="col-4 m-auto border p-3" style="background-color: #e5e4e1;border-radius: 5px;">
+                <h4 class="text-center">Join chat</h4>
+                <form action="/chat" autocomplete="off">
+                    <div class="form-group m-3">
+                        <div class="row">
+                            <label for="username" class="form-control-label">Display Name</label>
+                            <input type="text" class="form-control" name="username" placeholder="Display Name"
+                                required />
+                        </div>
+                    </div>
+                    <div class="form-group m-3">
+                        <div class="row">
+                            <label for="room" class="form-control-label">Room</label>
+                            <input type="text" class="form-control" name="room" placeholder="room" required />
+                        </div>
+                    </div>
+                    <div class="form-group m-3">
+                        <div class="row">
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-sm btn-success">Join Chat</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script id="message-template" type="text/x-handlebars-template">
+        <p  id="messageElement" class="bg-success p-1 rounded text-right text-white border message-template-paragraph" style="background-color:#8ccda9 !important;text-align:right">{{message}}</p>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"
+        integrity="sha512-aTKlYRb1QfU1jlF3k+aS4AqTpnTXci4R79mkdie/bp6Xm51O5O3ESAYhvg6zoicj/PD6VYY0XrYwsWLcvGiKZQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/chat.js"></script> --}}
+</body>
+
+</html>
