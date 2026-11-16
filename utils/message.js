@@ -1,10 +1,11 @@
-const getMessageObject = (text,username,chatboxHead="",room="") => {
+const getMessageObject = (text, username = '', chatboxHead = '', room = '') => {
     return {
         text,
-        "messageTime": new Date().getTime(),
+        messageTime: new Date().getTime(),
         username,
-        "chatboxHead":chatboxHead,
-        "room":room
+        chatboxHead,
+        room
     }
 }
-module.exports=getMessageObject
+
+module.exports = getMessageObject

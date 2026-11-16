@@ -6,59 +6,74 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/assets/bootstrap/bootstrap.min.css">
-    <title>Chat App</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Chat App - Join Chat</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="content" style="margin: auto;margin-top:10%">
-            <div class="col-md-6 col-sm-12 m-auto border p-3" style="background-color: #e5e4e1;border-radius: 5px;">
-                <h4 class="text-center">Join chat</h4>
-                <form action="/chat" autocomplete="off">
-                    <div class="form-group m-3">
-                        <div class="row">
-                            <label for="username" class="form-control-label">Display Name</label>
-                            <input type="text" class="form-control" name="username" placeholder="Display Name"
-                                required />
-                        </div>
+    <div class="join-wrapper">
+        <div class="join-card">
+            <div class="join-card-header">
+                <div class="join-brand-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <h3>Join Chat</h3>
+                <p>Connect with teams and friends in real-time rooms</p>
+            </div>
+            <div class="join-card-body">
+                <form action="/chat" method="GET" autocomplete="off" id="joinForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Display Name</label>
+                        <input type="text" class="form-control modern-input" id="username" name="username"
+                            placeholder="e.g. Alex, Sarah" required autofocus>
                     </div>
-                    <div class="form-group m-3">
-                        <div class="row">
-                            <label for="room" class="form-control-label">Room</label>
-                            <select class="form-select" name="room" required>
-                                <option value="">Select One Chatroom</option>
-                                <option value="Political">Political</option>
-                                <option value="Cricket">Cricket</option>
-                                <option value="Football">Football</option>
 
-                            </select>
+                    <div class="mb-3">
+                        <label for="room" class="form-label">Chat Room</label>
+                        <input type="text" class="form-control modern-input" id="room" name="room" list="room-options"
+                            placeholder="Select or enter room name" required>
+                        <datalist id="room-options">
+                            <option value="General"></option>
+                            <option value="Tech"></option>
+                            <option value="Cricket"></option>
+                            <option value="Football"></option>
+                            <option value="Political"></option>
+                        </datalist>
+
+                        <div class="room-tags-container">
+                            <span class="text-muted" style="font-size: 0.75rem; align-self: center;">Popular:</span>
+                            <button type="button" class="room-tag-btn" onclick="selectRoom('General')">#General</button>
+                            <button type="button" class="room-tag-btn" onclick="selectRoom('Tech')">#Tech</button>
+                            <button type="button" class="room-tag-btn" onclick="selectRoom('Cricket')">#Cricket</button>
+                            <button type="button" class="room-tag-btn" onclick="selectRoom('Football')">#Football</button>
+                            <button type="button" class="room-tag-btn" onclick="selectRoom('Political')">#Political</button>
                         </div>
                     </div>
-                    <div class="form-group m-3">
-                        <div class="row">
-                            <div class="col text-center">
-                                <button type="submit" class="btn btn-sm btn-success">Join Chat</button>
-                            </div>
-                        </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary-gradient">
+                            Enter Chat Room &rarr;
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-    <script id="message-template" type="text/x-handlebars-template">
-        <p  id="messageElement" class="bg-success p-1 rounded text-right text-white border message-template-paragraph" style="background-color:#8ccda9 !important;text-align:right">{{message}}</p>
+    <script>
+        function selectRoom(roomName) {
+            const roomInput = document.getElementById('room');
+            if (roomInput) {
+                roomInput.value = roomName;
+                const usernameInput = document.getElementById('username');
+                if (!usernameInput.value) {
+                    usernameInput.focus();
+                }
+            }
+        }
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
-        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    {{!--
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"
-        integrity="sha512-aTKlYRb1QfU1jlF3k+aS4AqTpnTXci4R79mkdie/bp6Xm51O5O3ESAYhvg6zoicj/PD6VYY0XrYwsWLcvGiKZQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/js/chat.js"></script> --}}
 </body>
 
 </html>
