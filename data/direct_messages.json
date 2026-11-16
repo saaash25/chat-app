@@ -1,0 +1,32 @@
+[
+  {
+    "id": "msg_1794848359183_udv5c",
+    "fromUserId": "088821fb-6292-4bc0-8835-669319d056c6",
+    "toUserId": "d8e4f794-b4c1-4d6a-8076-3572e0a3da59",
+    "text": "Hey, 1-on-1 direct message!",
+    "imageUrl": "",
+    "location": "",
+    "timestamp": 1794848359183,
+    "messageTime": 1794848359183
+  },
+  {
+    "id": "msg_1794848359185_bqcmg",
+    "fromUserId": "088821fb-6292-4bc0-8835-669319d056c6",
+    "toUserId": "d8e4f794-b4c1-4d6a-8076-3572e0a3da59",
+    "text": "",
+    "imageUrl": "/uploads/photo.png",
+    "location": "",
+    "timestamp": 1794848359185,
+    "messageTime": 1794848359185
+  },
+  {
+    "id": "msg_1794848488583_je6vn",
+    "fromUserId": "0ba2d82b-9b12-4483-96dc-21b7eb12189d",
+    "toUserId": "4fabf9df-8d50-49a2-9b48-a18700d8f8f6",
+    "text": "heeloooooooooooo",
+    "imageUrl": "",
+    "location": "",
+    "timestamp": 1794848488583,
+    "messageTime": 1794848488583
+  }
+]

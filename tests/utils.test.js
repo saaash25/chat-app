@@ -111,6 +111,31 @@ describe('utils/user', () => {
             assert.deepStrictEqual(findUsersInRoom(123), []);
         });
     });
+
+    describe('Active Socket & Presence Tracking', () => {
+        const { registerActiveSocket, unregisterActiveSocket, isUserOnline, getSocketsByUserId, getAllOnlineUserIds } = require('../utils/user');
+
+        it('should track active sockets and user online presence', () => {
+            assert.strictEqual(isUserOnline('u1'), false);
+
+            registerActiveSocket('sock_1', { id: 'u1', name: 'Alice', phoneNumber: '1111111111' });
+            assert.strictEqual(isUserOnline('u1'), true);
+            assert.deepStrictEqual(getSocketsByUserId('u1'), ['sock_1']);
+
+            // Multi-tab connection for same user
+            registerActiveSocket('sock_2', { id: 'u1', name: 'Alice', phoneNumber: '1111111111' });
+            assert.strictEqual(getSocketsByUserId('u1').length, 2);
+
+            // Disconnect first tab
+            unregisterActiveSocket('sock_1');
+            assert.strictEqual(isUserOnline('u1'), true);
+
+            // Disconnect second tab
+            unregisterActiveSocket('sock_2');
+            assert.strictEqual(isUserOnline('u1'), false);
+            assert.deepStrictEqual(getSocketsByUserId('u1'), []);
+        });
+    });
 });
 
 describe('utils/message', () => {

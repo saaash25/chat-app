@@ -1,0 +1,26 @@
+[
+  {
+    "id": "088821fb-6292-4bc0-8835-669319d056c6",
+    "name": "SenderUser",
+    "phoneNumber": "1112223334",
+    "createdAt": 1794848359120
+  },
+  {
+    "id": "d8e4f794-b4c1-4d6a-8076-3572e0a3da59",
+    "name": "ReceiverUser",
+    "phoneNumber": "5556667778",
+    "createdAt": 1794848359126
+  },
+  {
+    "id": "4fabf9df-8d50-49a2-9b48-a18700d8f8f6",
+    "name": "sajeesh",
+    "phoneNumber": "9048774559",
+    "createdAt": 1794848434134
+  },
+  {
+    "id": "0ba2d82b-9b12-4483-96dc-21b7eb12189d",
+    "name": "Appu",
+    "phoneNumber": "8547184559",
+    "createdAt": 1794848472650
+  }
+]

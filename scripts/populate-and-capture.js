@@ -5,9 +5,11 @@ const fs = require('fs');
 const os = require('os');
 const ioClient = require('socket.io-client');
 const { server, io } = require('../src/index');
+const { resetDB, registerUser } = require('../utils/db');
+const { resetUsers } = require('../utils/user');
 
 const execAsync = promisify(exec);
-const PORT = 3889;
+const PORT = 3998;
 const BASE_URL = `http://localhost:${PORT}`;
 const SCREENSHOT_DIR = path.join(__dirname, '../public/images/screenshots');
 
@@ -25,53 +27,100 @@ async function captureUrl(url, outFile, width = 1200, height = 800, virtualTime 
 }
 
 server.listen(PORT, async () => {
-    console.log(`Server listening on ${PORT}`);
+    console.log(`Server listening on ${PORT} for screenshot generation...`);
 
     try {
-        // 1. Capture Join Page
+        resetDB();
+        resetUsers();
+
+        // 1. Capture Sign Up / Login Landing Page
         await captureUrl(`${BASE_URL}/`, path.join(SCREENSHOT_DIR, 'join-page.png'), 1200, 800, 1000);
 
-        // 2. Connect mock sockets Sarah and Alex
-        const socket1 = ioClient(BASE_URL);
-        const socket2 = ioClient(BASE_URL);
+        // 2. Pre-register mock users
+        const { user: userAlice } = registerUser({ name: 'Alice Smith', phoneNumber: '+1 234 567 8901' });
+        const { user: userBob } = registerUser({ name: 'Bob Jones', phoneNumber: '+1 234 567 8902' });
+        const { user: userCharlie } = registerUser({ name: 'Charlie Brown', phoneNumber: '+1 234 567 8903' });
 
-        await new Promise((res) => socket1.emit('join', { username: 'Sarah', room: 'General' }, res));
-        await new Promise((res) => socket2.emit('join', { username: 'Alex', room: 'General' }, res));
+        // Connect mock socket for Alice and keep her online
+        const socketAlice = ioClient(BASE_URL);
+        const socketBob = ioClient(BASE_URL);
 
-        // When a new user joins, send responsive chat messages
-        socket1.on('joinMessage', () => {
-            setTimeout(() => {
-                socket1.emit('sendMessage', 'Welcome to the team! The new UI looks fantastic 🚀', () => {});
-            }, 200);
-            setTimeout(() => {
-                socket2.emit('sendLocation', 'https://google.com/maps?q=37.7749,-122.4194', () => {});
-            }, 500);
-            setTimeout(() => {
-                socket1.emit('sendMessage', 'Meetup coordinates shared above. Real-time updates work seamlessly!', () => {});
-            }, 800);
+        await new Promise((res) => socketAlice.emit('auth', { userId: userAlice.id, ...userAlice }, res));
+        await new Promise((res) => socketBob.emit('auth', { userId: userBob.id, ...userBob }, res));
+
+        // Create sample photo
+        const uploadDir = path.join(__dirname, '../public/uploads');
+        fs.mkdirSync(uploadDir, { recursive: true });
+        const sampleImageFile = path.join(uploadDir, 'demo-preview.png');
+
+        // Simple valid PNG data
+        const pngHex =
+            '89504e470d0a1a0a0000000d4948445200000064000000400802000000' +
+            '70e01d1c0000004749444154789cedcd310d0020080441d6fd5ff60e0a' +
+            'c8aa18485c2d385a4a58402130e463a562ca61937667425b0303030303' +
+            '03030303030303030303030303030303030303e301d00c3b3f27fbb12c' +
+            '0000000049454e44ae426082';
+        fs.writeFileSync(sampleImageFile, Buffer.from(pngHex, 'hex'));
+
+        // Alice sends direct message to Bob with text and an image
+        const send1 = await new Promise((res) => {
+            socketAlice.emit('sendDirectMessage', {
+                toUserId: userBob.id,
+                text: 'Hey Bob! Here is the project snapshot 📸',
+                imageUrl: '/uploads/demo-preview.png'
+            }, res);
         });
+        console.log('Alice sent DM:', send1);
 
-        // 3. Capture Desktop Chat Room Screenshot with David joining and demo active
+        const send2 = await new Promise((res) => {
+            socketBob.emit('sendDirectMessage', {
+                toUserId: userAlice.id,
+                text: 'Received! The direct image transfer and instant messaging are working great.'
+            }, res);
+        });
+        console.log('Bob replied DM:', send2);
+
+        // Disconnect temporary socketBob before opening Bob's browser session
+        socketBob.disconnect();
+
+        // 3. Capture Welcoming Screen (when no conversation/room is selected)
         await captureUrl(
-            `${BASE_URL}/chat?username=David&room=General&demo=true`,
-            path.join(SCREENSHOT_DIR, 'chat-room.png'),
+            `${BASE_URL}/chat?userId=${userBob.id}&username=${encodeURIComponent(userBob.name)}&phone=${encodeURIComponent(userBob.phoneNumber)}`,
+            path.join(SCREENSHOT_DIR, 'welcoming-screen.png'),
             1280,
             820,
-            4000
+            2500
         );
 
-        // 4. Capture Mobile Chat Room Screenshot
+        // 4. Capture Direct Messages View with 1-on-1 chat open
         await captureUrl(
-            `${BASE_URL}/chat?username=David&room=General&demo=true`,
+            `${BASE_URL}/chat?userId=${userBob.id}&username=${encodeURIComponent(userBob.name)}&phone=${encodeURIComponent(userBob.phoneNumber)}&directWith=${userAlice.id}`,
+            path.join(SCREENSHOT_DIR, 'chat-direct.png'),
+            1280,
+            820,
+            3500
+        );
+
+        // 5. Capture Mobile View
+        await captureUrl(
+            `${BASE_URL}/chat?userId=${userBob.id}&username=${encodeURIComponent(userBob.name)}&phone=${encodeURIComponent(userBob.phoneNumber)}&directWith=${userAlice.id}`,
             path.join(SCREENSHOT_DIR, 'chat-mobile.png'),
             390,
             844,
-            4000
+            3500
         );
 
-        socket1.disconnect();
-        socket2.disconnect();
-        console.log('All screenshots captured successfully!');
+        // 6. Capture Chat Rooms View
+        await captureUrl(
+            `${BASE_URL}/chat?userId=${userBob.id}&username=${encodeURIComponent(userBob.name)}&phone=${encodeURIComponent(userBob.phoneNumber)}&room=General`,
+            path.join(SCREENSHOT_DIR, 'chat-room.png'),
+            1280,
+            820,
+            3500
+        );
+
+        socketAlice.disconnect();
+        console.log('All updated screenshots captured successfully!');
     } catch (err) {
         console.error('Capture error:', err);
     } finally {
